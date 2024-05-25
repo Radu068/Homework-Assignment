@@ -36,20 +36,27 @@ public class TSPMain {
     }
 
     private static void solveAndPrintResults(long[][] graph, String graphName) {
+        double startTime, endTime;
         // Solve TSP for the graph using BFS
+        startTime = System.nanoTime();
         TSP_BFS.ResultBFS resultBFS = TSP_BFS.tspBFS(graph);
-        printResult(resultBFS, graphName, "BFS");
+        endTime = System.nanoTime();
+        printResult(resultBFS, graphName, "BFS", (endTime - startTime) / 1e9);
 
         // Solve TSP for the graph using A*
+        startTime = System.nanoTime();
         TSP_AStar.ResultAStar resultAStar = TSP_AStar.tspAStar(graph);
-        printResult(resultAStar, graphName, "A*");
+        endTime = System.nanoTime();
+        printResult(resultAStar, graphName, "A*", (endTime - startTime) / 1e9);
 
         // Solve TSP for the graph using UCS
+        startTime = System.nanoTime();
         TSP_UCS.ResultUCS resultUCS = TSP_UCS.tspUCS(graph);
-        printResult(resultUCS, graphName, "UCS");
+        endTime = System.nanoTime();
+        printResult(resultUCS, graphName, "UCS", (endTime - startTime) / 1e9);
     }
 
-    private static void printResult(Object result, String graphName, String algorithm) {
+    private static void printResult(Object result, String graphName, String algorithm, double executionTime) {
         if (result instanceof TSP_BFS.ResultBFS) {
             TSP_BFS.ResultBFS res = (TSP_BFS.ResultBFS) result;
             System.out.printf("Minimum Cost for %s graph using %s: %d%n", graphName, algorithm, res.cost);
@@ -63,6 +70,7 @@ public class TSPMain {
             System.out.printf("Minimum Cost for %s graph using %s: %d%n", graphName, algorithm, res.cost);
             System.out.printf("Route for %s graph using %s: %s%n", graphName, algorithm, res.route);
         }
+        System.out.println("Execution Time: " + executionTime + " seconds");
         System.out.println();
     }
 
